@@ -91,7 +91,7 @@ public class BigramModel {
                 if (num == MAX_VOCABULARY_SIZE)
                     break;
                 String normalword = normalizeWord(word);
-                if (normalword != null && !contains(voc, num, normalword))
+                if (normalword != null && findIndex(voc, normalword) == ELEMENT_NOT_FOUND)
                 {
                     voc[num] = normalword;
                     num++;
@@ -107,15 +107,6 @@ public class BigramModel {
         return result;
     }
 
-    private boolean contains(String[] arr, int count, String word)
-    {
-        for(int i = 0; i < count; i++)
-        {
-            if (arr[i].equals(word))
-                return true;
-        }
-        return false;
-    }
 
     /*
      * @post: mVocabulary = prev(mVocabulary)
