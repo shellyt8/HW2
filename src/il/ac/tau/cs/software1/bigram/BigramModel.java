@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Locale;
 
+import javax.xml.transform.stax.StAXResult;
+
 public class BigramModel {
     public static final int MAX_VOCABULARY_SIZE = 14500;
     public static final String VOC_FILE_SUFFIX = ".voc";
@@ -205,8 +207,28 @@ public class BigramModel {
      * @post: if sentence is probable, according to the model, $ret = true, else, $ret = false
      */
     public boolean isLegalSentence(String sentence) { // Question 5
-        // TODO: implement
-        return false;
+        if (sentence == null || sentence.isEmpty()) {
+            return true;
+        }
+
+        String[] words = sentence.split("\\s+");
+        if (words.length == 1) {
+            return findIndex(mVocabulary, words[0]) != ELEMENT_NOT_FOUND;
+        }
+
+        for(int i = 0; i < words.length - 1; i++)
+        {
+            int firstWord = findIndex(mVocabulary, words[i]);
+            int secondWord = findIndex(mVocabulary, words[i + 1]);
+            if (firstWord == ELEMENT_NOT_FOUND || secondWord == ELEMENT_NOT_FOUND) {
+                return false;
+            }
+            if (mBigramCounts[firstWord][secondWord] <= 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     ///////////////////////////////////////////////////////////////////////////
