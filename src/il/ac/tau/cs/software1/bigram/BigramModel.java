@@ -218,14 +218,9 @@ public class BigramModel {
 
         for(int i = 0; i < words.length - 1; i++)
         {
-            int firstWord = findIndex(mVocabulary, words[i]);
-            int secondWord = findIndex(mVocabulary, words[i + 1]);
-            if (firstWord == ELEMENT_NOT_FOUND || secondWord == ELEMENT_NOT_FOUND) {
+            if (getBigramCount(words[i], words[i + 1]) == 0) {
                 return false;
-            }
-            if (mBigramCounts[firstWord][secondWord] <= 0) {
-                return false;
-            }
+            }     
         }
 
         return true;
